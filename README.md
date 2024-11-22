@@ -35,3 +35,4 @@ Views:
 HR: Contains views for managing lecturers, generating invoices, and displaying the HR dashboard.
 
 # GitHuub Link
+https://github.com/Fortunemlilo/Contract-Monthly-Claim-System_POE.git
