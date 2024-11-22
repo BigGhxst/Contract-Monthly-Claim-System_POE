@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Invoices";
+}
+
+<h2>Approved Claims - Generate Invoices</h2>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <p style="color:red">@TempData["ErrorMessage"]</p>
+}
+
+<form method="post" asp-action="GenerateInvoices">
+    <button type="submit" class="btn btn-primary">Generate Invoices (PDF)</button>
+</form>

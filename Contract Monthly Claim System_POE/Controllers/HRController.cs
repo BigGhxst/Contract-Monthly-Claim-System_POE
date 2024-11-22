@@ -5,11 +5,14 @@ using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Contract_Monthly_Claim_System_POE.Data;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class HRController : Controller
 {
     private string connectionString = "server=localhost;database=claimsystem;uid=root;password=FORTUNE@123;";
-
     private readonly DatabaseContext _context;
 
     public HRController(DatabaseContext context)
@@ -63,7 +66,7 @@ public class HRController : Controller
     public IActionResult Index()
     {
         var approvedClaims = _context.Claims
-            .Include(c => c.Lecturer) // Include Lecturer for navigation properties
+            .Include(c => c.Lecturer)
             .Where(c => c.Status == "Approved")
             .ToList();
         return View(approvedClaims);
@@ -100,11 +103,11 @@ public class HRController : Controller
     {
         if (ModelState.IsValid)
         {
-            if (lecturer.LecturerID == 0) // Add new lecturer
+            if (lecturer.LecturerID == 0)
             {
                 _context.Lecturers.Add(lecturer);
             }
-            else // Update existing lecturer
+            else
             {
                 _context.Lecturers.Update(lecturer);
             }
@@ -114,8 +117,8 @@ public class HRController : Controller
         return View(lecturer);
     }
 
-    // Display the Reports page
-    public IActionResult Reports()
+    // Display the Invoice page
+    public IActionResult Invoices()
     {
         return View();
     }
@@ -155,12 +158,6 @@ public class HRController : Controller
         stream.Position = 0;
 
         return File(stream, "application/pdf", "ApprovedClaimsReport.pdf");
-    }
-    
-    // Add functionality to manage invoices
-    public IActionResult Invoices()
-    {
-        return View();
     }
 
     // Generate invoices for approved claims
