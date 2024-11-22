@@ -15,6 +15,9 @@ namespace Contract_Monthly_Claim_System_POE.Data
         /// Represents the Lecturers table in the database.
         /// Each Lecturer entity corresponds to a record in this table
         public DbSet<Lecturer> Lecturers { get; set; }
+
+        /// Represents the Approvals table in the database.
+        /// Each Approval entity corresponds to a record in this table.
         public DbSet<Approval> Approvals { get; set; } // Include your Approval entity
     }
 }
