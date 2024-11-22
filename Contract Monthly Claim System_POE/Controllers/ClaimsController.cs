@@ -20,7 +20,7 @@ namespace Contract_Monthly_Claim_System_POE.Controllers
         private static List<Claim> claims = new List<Claim>();
 
         // Predefined criteria for automated verification
-        private const int MaxHoursWorked = 160; // Maximum allowable hours per claim
+        private const int MaxHoursWorked = 160; // Maximmum allowable hors per claim
         private const decimal MaxHourlyRate = 350; // Maximum hourly rate allowed
 
         // GET: Show claim submission form
