@@ -1,0 +1,81 @@
+﻿@model List<Contract_Monthly_Claim_System_POE.Models.Claim>
+
+@{
+    ViewBag.Title = "Verify Claims";
+}
+
+<h2>Pending Claims</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer</th>
+            <th>Date</th>
+            <th>Hours Worked</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Verification</th>
+            <th>Uploaded File</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model.Where(c => c.Status == "Pending"))
+        {
+            <tr>
+                <td>@claim.ClaimID</td>
+                <td>@claim.Lecturer.FirstName @claim.Lecturer.LastName</td>
+                <td>@claim.Date.ToShortDateString()</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.TotalAmount.ToString("C", new System.Globalization.CultureInfo("en-ZA"))</td>
+                <td>@claim.Status</td>
+                <td>@claim.VerificationStatus</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.SupportingDocumentPath))
+                    {
+                        <a href="@Url.Content($"~/uploads/{claim.SupportingDocumentPath}")" target="_blank">
+                            Download
+                        </a>
+                    }
+                    else
+                    {
+                        <span>No file uploaded</span>
+                    }
+                </td>
+                <td>
+                    @if (claim.VerificationStatus == "Valid")
+                    {
+                        <!-- Approve Button -->
+                        <form asp-action="VerifyClaim" method="post" style="display:inline;">
+                            <input type="hidden" name="claimID" value="@claim.ClaimID" />
+                            <button type="submit" name="action" value="Approve" class="btn btn-success">Approve</button>
+                        </form>
+                    }
+
+                    <!-- Reject Button -->
+                    <button type="button" class="btn btn-danger" onclick="showRejectionMessage(@claim.ClaimID)">Reject</button>
+
+                    <!-- Rejection Reason (hidden by default) -->
+                    <div id="rejectionMessage-@claim.ClaimID" style="display: none; margin-top: 10px;">
+                        <form asp-action="VerifyClaim" method="post">
+                            <input type="hidden" name="claimID" value="@claim.ClaimID" />
+                            <textarea name="rejectionReason" class="form-control" rows="3" placeholder="Enter rejection reason here"></textarea>
+                            <button type="submit" name="action" value="Reject" class="btn btn-danger mt-2">Submit Rejection</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function showRejectionMessage(claimID) {
+        const rejectionDiv = document.getElementById(`rejectionMessage-${claimID}`);
+        rejectionDiv.style.display = 'block';
+    }
+</script>
+
+<br />
+<a href="/" class="btn btn-primary">Home</a>

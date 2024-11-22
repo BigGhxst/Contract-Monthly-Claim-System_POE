@@ -1,0 +1,93 @@
+﻿@model List<Contract_Monthly_Claim_System_POE.Models.Claim>
+
+@{
+    ViewBag.Title = "All Claims";
+}
+
+<h2>All Claims</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer Name</th>
+            <th>Date</th>
+            <th>Hours Worked</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Verification Status</th>
+            <th>Rejection Reason (If Any)</th>
+            <th>Uploaded File</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <!-- Claim Details -->
+                <td>@claim.ClaimID</td>
+                <td>
+                    @if (claim.Lecturer != null)
+                    {
+                        @claim.Lecturer.FirstName @claim.Lecturer.LastName
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </td>
+                <td>@claim.Date.ToShortDateString()</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.TotalAmount.ToString("C", new System.Globalization.CultureInfo("en-ZA"))</td>
+                <td>@claim.Status</td>
+
+                <!-- Verification Status -->
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.VerificationStatus))
+                    {
+                        @claim.VerificationStatus
+                    }
+                    else
+                    {
+                        <span>Not Verified</span>
+                    }
+                </td>
+
+                <!-- Rejection Reason -->
+                <td>
+                    @if (claim.Status == "Rejected" && !string.IsNullOrEmpty(claim.RejectionReason))
+                    {
+                        <span>@claim.RejectionReason</span>
+                    }
+                    else if (claim.Status == "Rejected")
+                    {
+                        <span>No reason provided</span>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+
+                <!-- Uploaded File -->
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.SupportingDocumentPath))
+                    {
+                        <!-- Display the uploaded document as a download link -->
+                        <a href="@Url.Content($"~/uploads/{claim.SupportingDocumentPath}")" target="_blank">
+                            Document
+                        </a>
+                    }
+                    else
+                    {
+                        <span>No file uploaded</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<a href="/" class="btn btn-primary">Home</a>
+<a asp-controller="Claims" asp-action="VerifyClaims" class="btn btn-primary">Verify Claims</a>

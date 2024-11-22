@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Lecturer>
+
+<h2>Manage Lecturers</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lecturer in Model)
+        {
+            <tr>
+                <td>@lecturer.FirstName</td>
+                <td>@lecturer.LastName</td>
+                <td>@lecturer.Email</td>
+                <td>@lecturer.PhoneNumber</td>
+                <td>@lecturer.Department</td>
+                <td>
+                    <a asp-action="AddLecturer" asp-route-id="@lecturer.LecturerID" class="btn btn-warning">Edit</a>
+                    <form asp-action="DeleteLecturer" asp-route-id="@lecturer.LecturerID" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="AddLecturer" class="btn btn-primary">Add Lecturer</a>

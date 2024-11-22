@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Claim>
+
+<h2 class="text-primary">HR Dashboard</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Lecturer Name</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.Lecturer.FirstName @claim.Lecturer.LastName</td>
+                <td>@claim.TotalAmount:C</td>
+                <td>@claim.Status</td>
+                <td>@claim.Date.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/HR/Reports" class="btn btn-primary">Generate Report</a>
+<a href="/HR/Lecturers" class="btn btn-secondary">Manage Lecturers</a>

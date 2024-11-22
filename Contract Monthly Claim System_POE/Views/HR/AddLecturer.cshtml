@@ -1,0 +1,30 @@
+﻿@model Lecturer
+
+<h2 class="text-primary">Add or Update Lecturer</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form method="post" asp-action="AddLecturer">
+    <input type="hidden" asp-for="LecturerID" />
+    <label>First Name:</label>
+    <input asp-for="FirstName" class="form-control" required />
+
+    <label>Last Name:</label>
+    <input asp-for="LastName" class="form-control" required />
+
+    <label>Email:</label>
+    <input asp-for="Email" class="form-control" type="email" required />
+
+    <label>Phone Number:</label>
+    <input asp-for="PhoneNumber" class="form-control" />
+
+    <label>Department:</label>
+    <input asp-for="Department" class="form-control" />
+
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+</form>
